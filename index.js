@@ -1,47 +1,62 @@
-function hello() {
-  console.log("hhhhh", this);
-}
-
-const person = {
-  name: "Kamron",
-  age: 20,
-  sayHello: hello,
-  sayHelloWindow: hello.bind(document),
-  logInfo: function (job, phone) {
-    console.group(`${this.name} info:`);
-    console.log(`Name is ${this.name}`);
-    console.log(`Age is ${this.age}`);
-    console.log(`Job is ${job}`);
-    console.log(`Phone is ${phone}`);
-    console.groupEnd();
-  },
-};
-
-const lena = {
-  name: "Elena",
-  age: 19,
-};
-// BINID
-person.logInfo.bind(lena, "Fronend", "42986")();
-// CALL
-person.logInfo.call(lena, "Frontend", "42412");
-// APPLY
-person.logInfo.apply(lena, ["Frontend", "3218"]); // только два параметра
-
-// =============
-
-const array = [1, 2, 3, 4, 5];
-
-// function multBy(arr, n) {
-//   return arr.map(function(i) {
-//     return i * n
-//   })
+// function createCalcFunction(n) {
+//   return function() {
+//     console.log(1000 * n)
+//   }
 // }
 
-Array.prototype.multBy = function (n) {
-  return this.map(function (i) {
-    return i * n;
-  });
-};
+// const calc = createCalcFunction(42)
+// calc()
 
-console.log(array.multBy(2));
+/*
+function createIncrementor(n) {
+  return function(num) {
+    return n + num
+  }
+}
+
+const addOne = createIncrementor(1)
+const addTen = createIncrementor(10)
+
+console.log(addOne(4))
+console.log(addOne(8))
+
+console.log(addTen(4))
+console.log(addTen(8))
+*/
+
+
+// function urlGenerator(domain) {
+//   return function(url) {
+//     return `https://${url}.${domain}`
+//   }
+// }
+
+// const comUrl = urlGenerator('com')
+// const ruUrl = urlGenerator('ru')
+
+// console.log(comUrl('netflix'))
+// console.log(ruUrl('russia'))
+
+
+
+function bind(context, fn) {
+  return  function(...args) {
+    fn.apply(context, args)
+  }
+}
+
+function logPerson() {
+  console.log(`Person: ${this.name}, Age: ${this.age}, Job: ${this.job}`)
+}
+
+const person1 = { name: 'Kamron', age: 20, job: 'Frontend' }
+const person2 = { name: 'Fatima', age: 19, job: 'Злить меня!' }
+
+bind(person1, logPerson)()
+bind(person2, logPerson)()
+
+
+
+
+
+
